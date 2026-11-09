@@ -1,0 +1,18 @@
+# Build / local state — never commit these
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+venv/
+node_modules/
+.DS_Store
+
+# Suno Patch Kit local library + audio (user's own songs)
+library.json
+*.wav
+*.mp3
+*.flac
+*.ogg
+
+# Track Surgery browser state / exports are local, not in the repo
+*.notes.json

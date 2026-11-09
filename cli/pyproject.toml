@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "suno-patch-kit"
+version = "0.1.0"
+description = "Local-first organizer and surgical patch helper for Suno songs. No Suno API, no login — it works with the WAV/MP3 files you already download from Suno."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "RSYMO" }]
+keywords = ["suno", "music", "ai-music", "editing", "cli"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Multimedia :: Sound/Audio",
+]
+dependencies = []
+
+[project.scripts]
+suno-patch-kit = "suno_patch_kit.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/Aphexflip/suno-patch-kit"
+Repository = "https://github.com/Aphexflip/suno-patch-kit"
+Issues = "https://github.com/Aphexflip/suno-patch-kit/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

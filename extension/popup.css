@@ -1,0 +1,12 @@
+body{width:360px;margin:0;padding:14px;background:#101a29;color:#f0f5ff;font:14px/1.45 system-ui,sans-serif}
+h1{font-size:18px;margin:0 0 4px}h2{font-size:13px;margin:14px 0 6px}
+.muted{color:#9dafc5}.small{font-size:12px}
+.row{display:flex;gap:8px;margin:8px 0}
+button{padding:8px 10px;border:1px solid #30445b;border-radius:9px;background:#223147;color:#f0f5ff;cursor:pointer;font:inherit}
+button.primary{background:linear-gradient(110deg,#218a91,#6554aa);border-color:transparent;font-weight:700}
+button.danger{color:#ff7486}
+.issue{display:block;width:100%;text-align:left;margin:5px 0;padding:9px;border-radius:9px}
+pre{white-space:pre-wrap;background:#09131f;border:1px solid #30445b;border-radius:10px;padding:10px;font-size:12px;max-height:260px;overflow:auto}
+input,textarea,select{width:100%;box-sizing:border-box;padding:8px;border:1px solid #30445b;border-radius:8px;background:#0e1725;color:#f0f5ff;font:inherit;margin:3px 0 8px}
+label{color:#9dafc5;font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+.status{color:#56e9d2;font-size:12px;min-height:18px}

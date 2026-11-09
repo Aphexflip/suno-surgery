@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><title>Suno Surgery</title><link rel="stylesheet" href="popup.css"></head>
+<body>
+  <h1>Suno Surgery</h1>
+  <p class="muted">Local only · no login · no Suno API. Mark a slice on suno.com, get the Replace Section prompt.</p>
+  <div class="row"><button id="open-panel" class="primary">Open side panel</button><button id="refresh">Refresh</button></div>
+  <div id="now" class="muted"></div>
+  <h2>Saved issues (<span id="count">0</span>)</h2>
+  <div id="issues"></div>
+  <pre id="output">Pick an issue below to see its prompt, or open the side panel on a Suno tab to mark a new slice.</pre>
+  <div class="row"><button id="copy" class="primary">Copy prompt</button><button id="clear" class="danger">Clear saved issues</button></div>
+  <p class="muted small">How it works: stay in Suno until a song is ~80% right → download that version → mark the bad slice → paste the prompt into More Actions &gt; Edit &gt; Replace Section → bring the candidate back into Track Surgery (gui/) to preview and export.</p>
+  <script src="shared/prompt.js"></script>
+  <script src="popup.js"></script>
+</body></html>

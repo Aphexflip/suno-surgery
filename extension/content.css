@@ -1,0 +1,15 @@
+/* Suno Surgery — floating panel on suno.com. Dark, small, out of the way. */
+#suno-surgery-toggle{position:fixed;right:14px;bottom:14px;z-index:2147483647;padding:8px 12px;border-radius:999px;border:1px solid #56e9d2;background:#101a29;color:#f0f5ff;font:600 13px system-ui,sans-serif;cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,.5)}
+#suno-surgery-panel{position:fixed;right:14px;bottom:64px;width:360px;max-width:calc(100vw - 28px);z-index:2147483647;background:#101a29;color:#f0f5ff;border:1px solid #30445b;border-radius:14px;padding:14px;font:14px/1.45 system-ui,sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.6)}
+#suno-surgery-panel .ss-head{display:flex;gap:8px;align-items:baseline}
+#suno-surgery-panel .ss-head span{color:#9dafc5;font-size:11px;flex:1}
+#suno-surgery-panel .ss-head button{background:none;border:0;color:#9dafc5;font-size:18px;cursor:pointer}
+#suno-surgery-panel .ss-row{margin-top:10px}
+#suno-surgery-panel label{color:#9dafc5;font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+#suno-surgery-panel input,#suno-surgery-panel textarea{width:100%;box-sizing:border-box;margin-top:3px;padding:8px;border:1px solid #30445b;border-radius:8px;background:#0e1725;color:#f0f5ff;font:inherit}
+#suno-surgery-panel .ss-times{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#suno-surgery-panel .ss-times button,#suno-surgery-panel .ss-actions button{padding:8px 10px;border:1px solid #30445b;border-radius:9px;background:#223147;color:#f0f5ff;cursor:pointer;font:inherit}
+#suno-surgery-panel .ss-actions{display:flex;gap:8px;flex-wrap:wrap}
+#suno-surgery-panel button.primary{background:linear-gradient(110deg,#218a91,#6554aa);border-color:transparent;font-weight:700}
+#suno-surgery-panel .ss-output{white-space:pre-wrap;background:#09131f;border:1px solid #30445b;border-radius:10px;padding:10px;font-size:12px;max-height:180px;overflow:auto;margin:12px 0 0}
+#suno-surgery-panel .ss-status{color:#56e9d2;font-size:12px;min-height:18px;margin-top:6px}
