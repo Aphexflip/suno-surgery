@@ -55,7 +55,7 @@
       <div class="ss-row"><label>Replacement lyrics (this section only)</label><textarea id="ss-lyrics" rows="2" placeholder="optional"></textarea></div>
       <div class="ss-row ss-actions">
         <button id="ss-generate" type="button" class="primary">Generate prompt</button>
-        <button id="ss-copy" type="button">Copy prompt</button>
+        <button id="ss-copy" type="button">Copy editing brief</button>\n        <button id="ss-copy-lyrics" type="button">Copy lyrics only</button>
         <button id="ss-save" type="button">Save issue</button>
       </div>
       <pre id="ss-output" class="ss-output">Mark a slice while the song plays, or type the times.</pre>
@@ -101,13 +101,19 @@
       if (issue.startSeconds == null || issue.endSeconds == null) return status("Need a start and an end time first.");
       if (issue.endSeconds <= issue.startSeconds) return status("End must be after start.");
       $("#ss-output").textContent = buildReplacePrompt(issue);
-      status("Prompt ready — paste it into Suno: More Actions > Edit > Replace Section.");
+      status("Editing brief ready. Only replacement lyrics belong in Suno’s lyrics field.");
     };
     $("#ss-copy").onclick = async () => {
       const text = $("#ss-output").textContent;
       if (!text || text.startsWith("Mark a slice")) return status("Generate a prompt first.");
       try { await navigator.clipboard.writeText(text); status("Copied."); }
       catch { status("Copy failed — select the text manually."); }
+    };
+    $("#ss-copy-lyrics").onclick = async () => {
+      const lyrics = $("#ss-lyrics").value.trim();
+      if (!lyrics) return status("No replacement lyrics entered.");
+      try { await navigator.clipboard.writeText(lyrics); status("Copied ONLY replacement lyrics."); }
+      catch { status("Copy failed — select the lyrics manually."); }
     };
     $("#ss-save").onclick = async () => {
       const issue = collect();
