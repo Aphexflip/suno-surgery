@@ -1,15 +1,12 @@
-"""Optional local preview splice with ffmpeg.
+"""Offline ffmpeg preview splice for a single repair region.
 
-Takes the original track and a replacement audio file for one bad
-section and splices them together locally, so you can hear the join
-*before* spending Suno credits on a Replace Section attempt.
-
-ffmpeg is optional. If it is not installed, this module raises a clear
-error and everything else in the kit still works.
+A replacement can be a short extracted clip (offset 0), or a complete
+candidate song (offset equals the original start time). Source files are
+read only. Previews are re-encoded to 44.1 kHz stereo PCM WAV.
 """
-
 from __future__ import annotations
 
+import math
 import shutil
 import subprocess
 from pathlib import Path
@@ -26,55 +23,50 @@ def preview_splice(
     start_seconds: float,
     end_seconds: float,
     output: Path,
+    replacement_offset_seconds: float = 0.0,
 ) -> Path:
-    """Splice replacement audio into [start, end) of the original.
+    """Preview original[0:start] + candidate[offset:offset+length] + original[end:].
 
-    Uses ffmpeg's concat demuxer with three segments:
-    original[0:start] + replacement (trimmed to the section length)
-    + original[end:]. Re-encodes to the output container's default
-    codec; this is a *preview*, not a master.
+    Use replacement_offset_seconds=0 for an isolated replacement clip, or
+    start_seconds for a complete candidate song with matching timestamps.
+    The output must be a different path from either input.
     """
+    original, replacement, output = Path(original), Path(replacement), Path(output)
+    values = (start_seconds, end_seconds, replacement_offset_seconds)
+    if not all(math.isfinite(v) for v in values):
+        raise ValueError("Time values must be finite")
+    if start_seconds < 0 or end_seconds <= start_seconds:
+        raise ValueError("End must be after a non-negative start")
+    if replacement_offset_seconds < 0:
+        raise ValueError("Replacement offset cannot be negative")
+    if output.resolve() in (original.resolve(), replacement.resolve()):
+        raise ValueError("Preview output must not overwrite either source file")
+    for path in (original, replacement):
+        if not path.is_file():
+            raise FileNotFoundError(path)
     if not ffmpeg_available():
         raise RuntimeError(
-            "ffmpeg is not installed. Install it (e.g. `brew install ffmpeg` "
-            "or `sudo apt install ffmpeg`) to use preview splices — "
-            "everything else in Suno Patch Kit works without it."
+            "ffmpeg is not installed. Install ffmpeg to preview a splice. "
+            "The other commands still work without it."
         )
-    if end_seconds <= start_seconds:
-        raise ValueError("End time must be after start time")
-    for path in (original, replacement):
-        if not path.exists():
-            raise FileNotFoundError(path)
-    length = end_seconds - start_seconds
+    if output.suffix.lower() != ".wav":
+        raise ValueError("Preview output must have a .wav extension")
     output.parent.mkdir(parents=True, exist_ok=True)
 
-    def run(*args: str) -> None:
-        subprocess.run(
-            ["ffmpeg", "-y", "-v", "error", *args],
-            check=True,
-        )
-
-    tmp = output.parent
-    before = tmp / "_spk_before.wav"
-    after = tmp / "_spk_after.wav"
-    repl = tmp / "_spk_replacement.wav"
-    try:
-        run("-i", str(original), "-t", str(start_seconds),
-            "-c:a", "pcm_s16le", str(before))
-        run("-i", str(original), "-ss", str(end_seconds),
-            "-c:a", "pcm_s16le", str(after))
-        run("-i", str(replacement), "-t", str(length),
-            "-c:a", "pcm_s16le", str(repl))
-        concat_list = tmp / "_spk_concat.txt"
-        concat_list.write_text(
-            "".join(f"file '{p}'\n" for p in (before, repl, after)),
-            encoding="utf-8")
-        run("-f", "concat", "-safe", "0", "-i", str(concat_list),
-            "-c:a", "pcm_s16le", str(output))
-    finally:
-        for p in (before, after, repl, tmp / "_spk_concat.txt"):
-            try:
-                p.unlink()
-            except FileNotFoundError:
-                pass
+    length = end_seconds - start_seconds
+    # Use one filter graph rather than concat-demuxing unnormalized WAV files.
+    # Normalize sample rate/channel layout so mixed Suno exports concatenate.
+    norm = "aresample=44100,aformat=sample_fmts=s16:channel_layouts=stereo"
+    flt = ";".join([
+        f"[0:a]atrim=start=0:end={start_seconds},asetpts=PTS-STARTPTS,{norm}[before]",
+        f"[1:a]atrim=start={replacement_offset_seconds}:duration={length},asetpts=PTS-STARTPTS,{norm}[patch]",
+        f"[0:a]atrim=start={end_seconds},asetpts=PTS-STARTPTS,{norm}[after]",
+        "[before][patch][after]concat=n=3:v=0:a=1[out]",
+    ])
+    subprocess.run([
+        "ffmpeg", "-y", "-v", "error",
+        "-i", str(original), "-i", str(replacement),
+        "-filter_complex", flt, "-map", "[out]",
+        "-c:a", "pcm_s16le", str(output),
+    ], check=True)
     return output
