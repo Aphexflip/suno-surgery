@@ -34,7 +34,7 @@ function buildReplacePrompt(issue) {
   const title = issue.title || "Untitled Suno song";
 
   const lines = [
-    `REPLACE SECTION — ${title}  (${start}–${end}, ${length}s)`,
+    `REPLACE SECTION — EDITING BRIEF (NOT LYRICS) — ${title}  (${start}–${end}, ${length}s)`,
     "",
     "Keep everything outside this range exactly as it is. Regenerate ONLY this section.",
     "",
@@ -61,7 +61,7 @@ function buildReplacePrompt(issue) {
   }
   lines.push(
     "",
-    `In Suno: open the song > More Actions (…) > Edit > Replace Section > highlight ${start}–${end} > paste the lyrics above > Recreate Section. Suno returns two versions — listen to both in the full song before committing one.`
+    `In Suno: open the song > More Actions (…) > Edit > Replace Section > highlight ${start}–${end}. Put ONLY the replacement lyrics in the lyrics field (if provided), never this editing brief. Use the brief for guidance or an instruction field if Suno offers one. Click Recreate Section; audition both versions before committing.`
   );
   if (warning) lines.push("", `Note: ${warning}`);
   return lines.join("\n");
