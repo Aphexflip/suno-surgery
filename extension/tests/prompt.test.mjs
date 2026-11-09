@@ -44,3 +44,10 @@ test("buildReplacePrompt without lyrics says keep original lyrics", () => {
   const p = buildReplacePrompt({ ...base, replacementLyrics: "" });
   assert.match(p, /keep the original lyrics for this section/);
 });
+
+test("brief warns not to paste editing directions into the lyrics field", () => {
+  const p = buildReplacePrompt(base);
+  assert.match(p, /EDITING BRIEF \(NOT LYRICS\)/);
+  assert.match(p, /Put ONLY the replacement lyrics in the lyrics field/);
+  assert.doesNotMatch(p, /paste the lyrics above/);
+});
