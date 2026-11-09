@@ -65,12 +65,12 @@ Tips that matter:
 Python 3.10+ only. No dependencies.
 
 ```bash
-git clone https://github.com/Aphexflip/suno-patch-kit.git
-cd suno-patch-kit
+git clone https://github.com/Aphexflip/suno-surgery.git
+cd suno-surgery/cli
 pip install -e .
 ```
 
-`ffmpeg` is optional, only for the `preview` command:
+`ffmpeg` is optional, only for the `preview` command. The preview requires `.wav` output and never overwrites either source file:
 
 ```bash
 # macOS
@@ -128,9 +128,18 @@ suno-patch-kit preview <song-id> --issue <issue-id> \
   --out ./preview-neon-highway.wav
 ```
 
-This splices `original[0:start] + replacement + original[end:]`
-with `ffmpeg`. It's a preview, not a master — re-encoding is
-expected. If `ffmpeg` isn't installed, this command tells you so
+This splices `original[0:start] + replacement[offset:offset+length] + original[end:]`
+with `ffmpeg`. For a *short replacement clip*, omit the offset (default 0).
+For a *complete candidate song*, include `--replacement-offset 0:42` (the
+matching timestamp) as in:
+
+```bash
+suno-patch-kit preview <song-id> --issue <issue-id> --replacement ./new-whole-song.wav --replacement-offset 0:42 --out ./preview.wav
+```
+
+The CLI does **not** automatically align the beats or detect a full-song
+candidate. It re-encodes preview audio to 44.1 kHz stereo PCM WAV.
+This is a preview, not a release master. If `ffmpeg` isn't installed, this command tells you so
 and everything else still works.
 
 ## The library file

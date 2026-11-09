@@ -12,9 +12,9 @@ API, no server, no credits spent by this tool.
   for that section only.
 - **Generate prompt** builds the Replace Section brief (same wording as
   `cli/src/suno_patch_kit/replace.py`, single shared logic in
-  `shared/prompt.js`). **Copy prompt**, paste it into Suno.
-- Issues save to `chrome.storage.local` only. Popup lists them; the side
-  panel is the full editor. Clicking the toolbar icon opens the side panel.
+  `shared/prompt.js`). **Copy editing brief** for an instruction/prompt field when available, or use it as a checklist. **Copy lyrics only** for Suno’s lyrics field. Never paste the whole brief into the lyrics field.
+- Issues save to `chrome.storage.local` only. Side panel lists them; the side
+  panel is the full editor. Clicking the toolbar icon opens the side panel. The legacy popup files remain in the repository but are not configured as the toolbar action.
 
 ## What it does NOT do
 
@@ -44,7 +44,7 @@ Chrome or Edge:
 2. When it's close, mark the bad slice here (15–20s is the sweet spot;
    under 5s joins sound stitched, over 30s the model loses the thread).
 3. In Suno: **More Actions (…) > Edit > Replace Section**, highlight
-   the same range, paste the prompt, **Recreate Section**. Suno returns
+   the same range, paste replacement lyrics ONLY into the lyrics field; use the brief in an instruction field if available, then **Recreate Section**. Suno returns
    two versions — listen to both in the full song before committing one.
 4. Download the candidate, bring it into `gui/track-surgery.html`
    (Track Surgery Studio) to preview the patch in context with an
@@ -60,7 +60,7 @@ Chrome or Edge:
 | `manifest.json` | MV3 manifest: `storage` + `sidePanel`, host `suno.com` only |
 | `background.js` | Service worker — opens the side panel on icon click |
 | `content.js` / `content.css` | Floating panel injected on suno.com |
-| `popup.html` / `popup.js` / `popup.css` | Toolbar popup — saved issues, copy prompt |
+| `popup.html` / `popup.js` / `popup.css` | Legacy popup (currently unused; action opens side panel) |
 | `sidepanel.html` / `sidepanel.js` | Side panel — full editor |
 | `shared/prompt.js` | Prompt builder, shared by all three surfaces |
 | `tests/prompt.test.mjs` | Node tests for the prompt builder |
@@ -75,4 +75,4 @@ python3 -c "import json; json.load(open('extension/manifest.json')); print('mani
 Then load unpacked (above) and check: floating button appears on
 suno.com, Mark start/end fills times while playing, Generate shows a
 prompt naming the range, Copy works, and the issue appears in the
-popup after Save.
+side panel after Save.

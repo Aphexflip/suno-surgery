@@ -39,7 +39,7 @@ organizer. Pick any one — they work standalone — or use all three.
    plays (15–20 s is the sweet spot; under 5 s joins sound stitched,
    over 30 s the model loses the melodic thread).
 3. In Suno: **More Actions (…) > Edit > Replace Section**, highlight
-   the same range, paste the prompt, **Recreate Section**. Suno
+   the same range, paste only replacement lyrics into the lyrics field; use the editing brief as guidance or in a separate instruction field when available, then **Recreate Section**. Suno
    returns two versions — listen to both in the full song before
    committing one.
 4. Download the candidate. Bring it into `gui/track-surgery.html`
@@ -69,12 +69,12 @@ organizer. Pick any one — they work standalone — or use all three.
 **Extension** — Chrome/Edge, load unpacked (see
 [`extension/README.md`](extension/README.md)):
 `chrome://extensions` → Developer mode → Load unpacked → pick
-`extension/`.
+`extension/` in a downloaded/extracted copy of this repo (not the GitHub webpage). The toolbar icon opens the side panel. Reload the Suno tab after installing.
 
 **GUI** — double-click `gui/track-surgery.html` in Edge/Chrome.
 No install.
 
-**CLI** — Python 3.10+, no dependencies (see
+**CLI** — Python 3.10+, no Python dependencies (see
 [`cli/README.md`](cli/README.md)):
 ```bash
 cd cli && pip install -e .
@@ -91,7 +91,7 @@ cd cli && pip install -e . && python3 -m unittest discover -s tests -v   # 17 te
 
 Then load the extension unpacked and check: floating button appears
 on suno.com, Mark start/end fills times while playing, Generate shows
-a prompt naming the range, Copy works, the issue appears in the popup
+a prompt naming the range, Copy works, the issue appears in the side panel
 after Save. GUI: open `gui/track-surgery.html`, import a WAV, drag a
 region, save an issue.
 

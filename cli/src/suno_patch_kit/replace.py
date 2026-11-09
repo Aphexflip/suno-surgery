@@ -22,7 +22,7 @@ def build_replace_prompt(song: dict, issue: dict) -> str:
     warning = section_warning(issue["start_seconds"], issue["end_seconds"])
 
     lines = [
-        f"REPLACE SECTION — {song['title']}  ({start}–{end}, {length:.0f}s)",
+        f"REPLACE SECTION — EDITING BRIEF (NOT LYRICS) — {song['title']}  ({start}–{end}, {length:.0f}s)",
         "",
         "Keep everything outside this range exactly as it is. "
         "Regenerate ONLY this section.",
@@ -55,9 +55,10 @@ def build_replace_prompt(song: dict, issue: dict) -> str:
         "",
         "In Suno: open the song > More Actions (…) > Edit > "
         "Replace Section > highlight "
-        f"{start}–{end} > paste the lyrics above > Recreate Section. "
-        "Suno returns two versions — listen to both in the full song "
-        "before committing one.",
+        f"{start}–{end}. Put ONLY replacement lyrics in the lyrics field "
+        "(if provided), not this editing brief. Use the brief as guidance "
+        "or in a separate instruction field if available. Click Recreate Section "
+        "and listen to both versions before committing.",
     ]
     if warning:
         lines += ["", f"Note: {warning}"]

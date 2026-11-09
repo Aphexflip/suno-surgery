@@ -211,7 +211,8 @@ def cmd_preview(args) -> int:
         preview_splice(
             Path(song["audio_path"]), Path(args.replacement),
             start_seconds=issue["start_seconds"],
-            end_seconds=issue["end_seconds"], output=output)
+            end_seconds=issue["end_seconds"], output=output,
+            replacement_offset_seconds=parse_time(args.replacement_offset))
     except (FileNotFoundError, RuntimeError, ValueError) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2
@@ -287,6 +288,8 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--replacement", required=True,
                    help="audio file for the replacement section")
     p.add_argument("--out", default=None)
+    p.add_argument("--replacement-offset", default="0",
+                   help="source start in replacement file, e.g. 0 for a clip or 0:42 for a full-song candidate")
     p.set_defaults(func=cmd_preview)
 
     return parser

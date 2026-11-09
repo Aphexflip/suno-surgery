@@ -73,5 +73,16 @@ $("save").onclick = async () => {
   list.push({ ...it, id: Date.now().toString(36), savedAt: new Date().toISOString() });
   await saveAll(list); refreshList(); status(`Saved issue #${list.length} locally.`);
 };
-$("copy").onclick = async () => { await navigator.clipboard.writeText($("output").textContent); status("Copied."); };
+$("copy").onclick = async () => {
+  const brief = $("output").textContent;
+  if (!brief || brief.startsWith("Mark a slice")) return status("Generate a brief first.");
+  try { await navigator.clipboard.writeText(brief); status("Copied editing brief (NOT lyrics)."); }
+  catch { status("Copy failed; select the brief manually."); }
+};
+$("copy-lyrics").onclick = async () => {
+  const lyrics = $("lyrics").value.trim();
+  if (!lyrics) return status("No replacement lyrics entered.");
+  try { await navigator.clipboard.writeText(lyrics); status("Copied ONLY replacement lyrics."); }
+  catch { status("Copy failed; select the lyrics manually."); }
+};
 refreshList();
