@@ -25,9 +25,9 @@ dependencies = []
 suno-patch-kit = "suno_patch_kit.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/Aphexflip/suno-patch-kit"
-Repository = "https://github.com/Aphexflip/suno-patch-kit"
-Issues = "https://github.com/Aphexflip/suno-patch-kit/issues"
+Homepage = "https://github.com/Aphexflip/suno-surgery"
+Repository = "https://github.com/Aphexflip/suno-surgery"
+Issues = "https://github.com/Aphexflip/suno-surgery/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]
