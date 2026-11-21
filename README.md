@@ -1,5 +1,11 @@
 # Suno Surgery
 
+[![Automated tests](https://github.com/Aphexflip/suno-surgery/actions/workflows/tests.yml/badge.svg)](https://github.com/Aphexflip/suno-surgery/actions/workflows/tests.yml)
+
+Automated checks cover Python 3.10, 3.12, and 3.13, browser extension prompt logic on Node 22, and the extension manifest. These checks do not substitute for a hands on test of every browser or audio editing workflow.
+
+[Security policy](SECURITY.md) | [Contributing](CONTRIBUTING.md) | [Engineering case study](PORTFOLIO_CASE_STUDY.md)
+
 Fix the last 10–20% of a nearly-finished Suno song **without
 regenerating the whole thing** — and without leaving Suno until you
 have to.
