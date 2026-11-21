@@ -19,6 +19,8 @@ a grey area with Suno's terms. This project deliberately avoids all
 of that: it writes instructions you paste into Suno, and it patches
 audio locally from files you downloaded yourself.
 
+**For hiring managers and collaborators:** [Project case study, technical decisions, and my use of AI](PORTFOLIO_CASE_STUDY.md).
+
 ## The three parts — one workflow
 
 | Part | What it is | When you use it |
